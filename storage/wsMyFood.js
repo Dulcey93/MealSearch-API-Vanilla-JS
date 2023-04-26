@@ -1,5 +1,5 @@
-export let wsmyCards = {
-    async render_data_cards(){
+export let wsMyFoods = {
+    async render_data_foods(){
       let datos = "";
       for (let i = 1; i <= 151; i++) {
         try {
@@ -46,7 +46,7 @@ export let wsmyCards = {
 }
 
 // Escucha los mensajes que recibe el Worker.
-self.addEventListener('message', async(e)=> {
-    let result= await wsmyCards.render_data_cards();
+self.addEventListener('message', (e)=> {
+    let result= wsMyFoods.render_data_foods();
     postMessage(result);
 });
