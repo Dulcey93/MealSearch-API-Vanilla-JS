@@ -1,51 +1,38 @@
 export default {
-    render() {
-        let ws = new Worker("../storage/wsMyFood.js");
-
+    caragaInicio() {
         const searchBtn = document.getElementById('search-btn');
         const mealList = document.getElementById('meal');
+
+        searchBtn.addEventListener('click', () => {
+            let searchInputTxt = document.getElementById('search-input').value.trim().toLowerCase();
+            const all = new Worker("../storage/wsMyFood.js", { type: "module" });
+            all.postMessage({ accion: "showAll", body: searchInputTxt });
+            all.addEventListener("message", (e) => {
+                mealList.innerHTML = [...e.data];
+                all.terminate()
+            })
+            this.searchOneByName();            
+        });
+    },
+
+
+    searchOneByName() {
+        const recipe = document.getElementsByClassName('recipe-btn');
+        console.log(recipe);
+        /* const recipeCloseBtn = document.getElementById('recipe-close-btn');
         const mealDetailsContent = document.querySelector('.meal-details-content');
-        const recipeCloseBtn = document.getElementById('recipe-close-btn');
-        // event listeners
-        searchBtn.addEventListener('click', getMealList);
-        mealList.addEventListener('click', getMealRecipe);
+        console.log(e.target);
+        e.preventDefault();
+        let mealItem = e.target.parentElement.parentElement;
+        const searchs = new Worker("../storage/wsMyFood.js", { type: "module" });
+        searchs.postMessage({ accion: "searchOneBYName", body: mealItem.dataset.id })
+        searchs.addEventListener("message", (e) => {
+            mealDetailsContent.innerHTML = [...e.data];
+            mealDetailsContent.parentElement.classList.add('showRecipe');
+            searchs.terminate()
+        })
         recipeCloseBtn.addEventListener('click', () => {
             mealDetailsContent.parentElement.classList.remove('showRecipe');
-        });
-
-        // get meal list that matches with the ingredients
-        function getMealList() {
-            let searchInputTxt = document.getElementById('search-input').value.trim().toLowerCase();
-            if (!searchInputTxt) return;
-            let url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInputTxt}`;
-
-            ws.postMessage({ message: "getMealList", url: url});
-        }
-        // get recipe of the meal
-        function getMealRecipe(e) {
-            e.preventDefault();
-            if (e.target.classList.contains('recipe-btn')) {
-                let mealItem = e.target.parentElement.parentElement;
-                let url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`
-                ws.postMessage({ message: "getDetails", url: url });
-            }
-        }
-
-        ws.onmessage = (e) => {
-            let { message, data } = e.data;
-
-            if (message === "getMealList") {
-                mealList.innerHTML = data;
-            } else if (message === "getDetails") {
-                mealDetailsContent.innerHTML = data;
-                mealDetailsContent.parentElement.classList.add('showRecipe');
-            }else if (message === "error") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops!',
-                    text: 'Please enter a valid ingredient'
-                })
-            }
-        }
+        }); */
     }
 }

@@ -1,2 +1,5 @@
 import myFood from "./components/myFood.js";
-myFood.render();
+
+document.addEventListener("DOMContentLoaded",(e)=>{
+    myFood.caragaInicio();
+})
