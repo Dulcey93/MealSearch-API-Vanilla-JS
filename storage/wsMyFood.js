@@ -2,13 +2,13 @@
 import api from "../API/api.js";
 
 let ws = {
-    async showAll(searchInputTxt){
+    async showAll(searchInputTxt) {
         const data = await api.getAll(searchInputTxt);
         console.log(data.meals);
-        let  html = ``;
+        let html = ``;
         data.meals.forEach(element => {
             const { idMeal, strMealThumb, strMeal } = element;
-            html+=`
+            html += `
             <div class = "meal-item" data-id = "${idMeal}">
                 <div class = "meal-img">
                     <img src = "${strMealThumb}" alt = "food">
@@ -23,29 +23,28 @@ let ws = {
         return [html];
     },
 
-
-    // Falta terminar
-    async searchOneBYName(id) {
-        let html = '';
-        const data = await api.searchOne(id);
-        data.results.forEach(element => {
-            const { id, title, overview, poster_path  } = element;
-            if (poster_path) {
-                html+=`
-                <div class="card text-center cardhover" style="width: 18rem; border: 1px solid black;">
-                    <div class="w-100 h-100 position-absolute cardcover d-danger">
-                        <h5 class="card-title ">${title}</h5>
-                        <button type="button" class="btn btn-primary z-3  details" data-movie="${id}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Details</button>
-                    </div>
-                    <img src="https://image.tmdb.org/t/p/w780${poster_path}" class="card-img-top imgs" alt="..." >
-                </div>
-            `
-            }   
-        });
-        return [html];
+    async searchOneBYName(meal) {
+        const search = await api.searchOne(meal);
+        console.log(search);
+        meal = await search.meals[0];
+        let html = `
+            <h2 class = "recipe-title">${meal.strMeal}</h2>
+            <p class = "recipe-category">${meal.strCategory}</p>
+            <div class = "recipe-instruct">
+                <h3>Instructions:</h3>
+                <p>${meal.strInstructions}</p>
+            </div>
+            <div class = "recipe-meal-img">
+                <img src = "${meal.strMealThumb}" alt = "">
+            </div>
+            <div class = "recipe-link">
+                <a href = "${meal.strYoutube}" target = "_blank">Watch Video</a>
+            </div>
+        `;
+        return html;
     }
 }
 
-self.addEventListener("message", (e)=>{
-    Promise.resolve(ws[`${e.data.accion}`]((e.data.body)? e.data.body: undefined)).then(res => postMessage(res));
+self.addEventListener("message", (e) => {
+    Promise.resolve(ws[`${e.data.accion}`]((e.data.body) ? e.data.body : undefined)).then(res => postMessage(res));
 })

@@ -1,5 +1,5 @@
 export default {
-    caragaInicio() {
+    cargaInicio() {
         const searchBtn = document.getElementById('search-btn');
         const mealList = document.getElementById('meal');
 
@@ -17,22 +17,23 @@ export default {
 
 
     searchOneByName() {
-        const recipe = document.getElementsByClassName('recipe-btn');
-        console.log(recipe);
-        /* const recipeCloseBtn = document.getElementById('recipe-close-btn');
-        const mealDetailsContent = document.querySelector('.meal-details-content');
-        console.log(e.target);
-        e.preventDefault();
-        let mealItem = e.target.parentElement.parentElement;
-        const searchs = new Worker("../storage/wsMyFood.js", { type: "module" });
-        searchs.postMessage({ accion: "searchOneBYName", body: mealItem.dataset.id })
-        searchs.addEventListener("message", (e) => {
-            mealDetailsContent.innerHTML = [...e.data];
-            mealDetailsContent.parentElement.classList.add('showRecipe');
-            searchs.terminate()
+        addEventListener('click', (e) => {
+            if (e.target.classList.contains('recipe-btn')) {
+                const recipeCloseBtn = document.getElementById('recipe-close-btn');
+                const mealDetailsContent = document.querySelector('.meal-details-content');
+                e.preventDefault();
+                let mealItem = e.target.parentElement.parentElement;
+                const searchs = new Worker("../storage/wsMyFood.js", { type: "module" });
+                searchs.postMessage({ accion: "searchOneBYName", body: mealItem.dataset.id })
+                searchs.addEventListener("message", (e) => {
+                    mealDetailsContent.innerHTML = e.data;
+                    mealDetailsContent.parentElement.classList.add('showRecipe');
+                    searchs.terminate()
+                })
+                recipeCloseBtn.addEventListener('click', () => {
+                    mealDetailsContent.parentElement.classList.remove('showRecipe');
+                });
+            }
         })
-        recipeCloseBtn.addEventListener('click', () => {
-            mealDetailsContent.parentElement.classList.remove('showRecipe');
-        }); */
     }
 }
