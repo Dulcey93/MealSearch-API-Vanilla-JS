@@ -9,15 +9,20 @@ let ws = {
         data.meals.forEach(element => {
             const { idMeal, strMealThumb, strMeal } = element;
             html += `
-            <div class = "meal-item" data-id = "${idMeal}">
-                <div class = "meal-img">
+            <div class="item" data-id = "${idMeal}">
+                <div class="img">
                     <img src = "${strMealThumb}" alt = "food">
                 </div>
-                <div class = "meal-name">
-                    <h3>${strMeal}</h3>
-                    <a href = "#" class = "recipe-btn">Get Recipe</a>
+                <div class="content">
+                    <div class="title">${strMeal}</div>
+                    <div class="des">
+                        Lorem ipsum dolor sit amet consectetur
+                        adipisicing elit. Repellendus, minus.
+                    </div>
+                    <div class="price">$203.5</div>
+                    <a href = "#" class = "recipe-btn add">Get Recipe</a>
                 </div>
-            </div>
+          </div>
             `
         });
         return [html];
