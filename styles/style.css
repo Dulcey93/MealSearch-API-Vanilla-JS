@@ -12,8 +12,7 @@
   }
   body{
     background-image: linear-gradient(to top right,
-        #CC64A2, #6c63ff
-    );
+        #CC64A2, #6c63ff);
     min-height: 100vh;
     line-height: 20px;
     font-family: monospace;
@@ -113,7 +112,7 @@
   }
 .list{
   display: grid;
-  grid-template-columns: 300px 300px 300px;
+  grid-template-columns: repeat(3, 300px);
   column-gap: 20px;
   align-content: stretch;
   justify-content: center;
